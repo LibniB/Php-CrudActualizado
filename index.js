@@ -35,6 +35,17 @@ function eliminarProducto(id){
     });
 }
 
+function limpiarFormulario(){
+    var inputNombre = document.getElementById("nombreProducto");
+    var inputDescripcion = document.getElementById("descripcion");
+    var inputId= document.getElementById("idProducto");
+    inputNombre.value="";
+    inputDescripcion.value="";
+    inputId.value="";
+}
+function guardarProducto(id,nombre,descripcion) {
+    fetch('./controllers/guardarProductoController.php?id='+id+'&nombre='+nombre+'$descripcion='+descripcion)
+}
 function traerDatos(id){
     
     fetch('./controllers/traerDatosController.php?id='+id)
@@ -46,7 +57,17 @@ function traerDatos(id){
         inputNombre.value=data.nombre;
         inputDescripcion.value=data.descripcion;
         inputId.value=data.id;
+
+        var boton = document.getElementById("guardar");
+        boton.onclick = function(){
+            alert("haz hecho click")
+            guardarDatos();
+        }
     });
+    
 }
+
+
+
 
 cargarDatos();

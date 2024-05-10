@@ -66,6 +66,14 @@ function traerDatos($id) {
     }
 }
 
+function guardarProducto($id,$nombre,$descripcion){
+	$conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
+	try {
+		$conexion = $conn->Conectar();
+		$stmt = $conexion->prepare("INSERT INTO (id,nombreProducto,descripcion) VALUES ");
+        $stmt->execute();
+}
+
 }
 
 
