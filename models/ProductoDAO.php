@@ -72,13 +72,13 @@ function guardarProducto($id,$nombre,$descripcion){
 		$conexion = $conn->Conectar();
 		$stmt = $conexion->prepare("INSERT INTO (id,nombreProducto,descripcion) VALUES ");
         $stmt->execute();
-}
+	}catch(PDOException $e){
+		echo "error";
+	}
 
 }
 
-
-
-
+}
 
 
 
@@ -111,6 +111,6 @@ function guardarProducto($id,$nombre,$descripcion){
 	// 	print "¡Error!: " . $e->getMessage() . "<br/>";
 	// 	die();
 	// }
-?>
+
 
  
