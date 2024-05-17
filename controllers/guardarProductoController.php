@@ -1,11 +1,10 @@
 <?php
-include('../models/ProductoDAO.php');
-$clase= new ProductosDAO();
-if($_REQUEST['id']==''){
-    $clase->guardarProducto($_REQUEST['nombre'],$_REQUEST['descripcion']);
-}else{
-    $clase->actualizarProducto($_REQUEST['nombre'],$_REQUEST['descripcion']);
-}
+    include('../models/ProductoDAO.php');
+    $productoDAO = new ProductoDAO();
+    if($_REQUEST['id']==''){
+        $productoDAO->agregarProducto($_GET['id'], $_GET['nombre'], $_GET['descripcion']);
+    }else{
+        $productoDAO->actualizarProducto($_REQUEST['id'],$_REQUEST['nombre'],$_REQUEST['descripcion']);
+    }
 
-$msg=$clase->eliminarProducto($_GET['id']);
 ?>

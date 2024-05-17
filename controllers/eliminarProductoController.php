@@ -1,6 +1,5 @@
 <?php
-include('../models/ProductoDAO.php');
-
-$clase= new ProductosDAO();
-$msg=$clase->eliminarProducto($_GET['id']);
+    include('../models/ProductoDAO.php');
+    $productoDAO = new ProductoDAO();
+    $msg= $productoDAO->eliminarProducto($_GET['id']);
 ?>

@@ -1,116 +1,90 @@
 <?php
-include ('../conexiones/conexion.php');
-class ProductosDAO{
-	public $id;
-	public $nombre;
-	public $descripcion;
+    require('../conexiones/conexion.php');
+    class productoDAO{
+       public $id;
+       public $nombre;
+       public $descripcion;
 
-	function __construct($id=null,$nombre=null,$descripcion=null){
-	 $this->id=$id;
-	 $this->nombre=$nombre;
-	 $this->descripcion=$descripcion;
-	} 
-
-
-function traerProducto(){
-	$conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
-	try {
-		$conexion = $conn->Conectar();
-		$stmt=$conexion->query('SELECT * from producto');
-		$rows=$stmt->fetchAll(PDO::FETCH_ASSOC);
-		return $rows;
-			// foreach ($conexion->query('SELECT * from productos') as $fila) {
-			//     print_r(json_encode($fila));
-			// }  
-	} catch (PDOException $e) {
-		echo "Error al conectarse ====>" . $e;
-	}
-   }
-
-function eliminarProducto($id){
-	
-	$conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
-	try {
-		$conexion = $conn->Conectar();
-		$stmt = $conexion->prepare("DELETE FROM producto WHERE id = $id");
-        $stmt->execute();
- 
-	} catch (PDOException $e) {
-		echo "Error al conectarse ====>" . $e;
-	}
-   }
-
-function agregarProducto(){
-	
-	$conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
-	try {
-		$conexion = $conn->Conectar();
-		
-        $stmt->execute();
- 
-	} catch (PDOException $e) {
-		echo "Error al conectarse ====>" . $e;
-	}
-   }
-
-function traerDatos($id) {
-    $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
-    try {
-        $conexion = $conn->Conectar();
-        $stmt = $conexion->prepare("SELECT * FROM producto WHERE id = {$id}");
-        $stmt->execute();
-        $rows = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $rows; // Add this line to return the data
-    } catch (PDOException $e) {
-        echo "Error al conectarse: " . $e->getMessage();
+       function __construct($id=null,$nombre=null,$descripcion=null){
+        $this->id=$id;
+        $this->nombre=$nombre;
+        $this->descripcion=$descripcion;
+       } 
+       function traerProducto(){
+        $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
+        try {
+            $conexion = $conn->Conectar();
+            $stmt=$conexion->query('SELECT * from producto');
+            $rows=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $rows; 
+            $conn->Desconectar();
+        } catch (PDOException $e) {
+            echo "Error al conectarse ====>" . $e;
+        }
+       }
+       function eliminarProducto($id){
+        $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
+        try {
+            $conexion = $conn->Conectar();
+            $stmt = $conexion->prepare("DELETE FROM producto WHERE id = $id");
+            $stmt->execute();
+            return "Exito";  
+        } catch (PDOException $e) {
+            echo "Error al conectarse ====>" . $e;
+        }
+       }
+       function agregarProducto($id, $nombre, $descripcion){
+        $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
+        try {
+            $conexion = $conn->Conectar();
+            $stmt = $conexion->prepare("INSERT INTO producto (id, nombre, descripcion) VALUES (?, ?, ?)");
+            $stmt->bindParam(1, $id);
+            $stmt->bindParam(2, $nombre);
+            $stmt->bindParam(3, $descripcion);
+            $stmt->execute();
+            return "Agregado Exitosamente";
+        } catch(PDOException $e) {
+            return "Error al conectar a la base de datos: " . $e;
+        }
     }
-}
+       function traerDatos($id){
+        $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
+        try {
+            $conexion = $conn->Conectar();
+            $stmt=$conexion->query("SELECT * from producto WHERE id = {$id}");
+            $rows=$stmt->fetch(PDO::FETCH_ASSOC);
+            return $rows;
+            $conn->Desconectar();
+        } catch (PDOException $e) {
+            echo "Error al conectarse ====>" . $e;
+        }
+       }
+       /*function guardarProducto($id,$nombre,$descripcion){
+        $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
+        try {
+            $conexion = $conn->Conectar();
+            $stmt = $conexion->prepare("INSERT INTO producto VALUE ($id,'{$nombre}','{$descripcion}')");
+            $stmt->execute();
+            return "Exito";  
+        } catch (PDOException $e) {
+            echo "Error al conectarse ====>" . $e;
+        }
+       }*/
+       function actualizarProducto($id,$nombre,$descripcion){
+        $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
+        try {
+            $conexion = $conn->Conectar();
+            $stmt = $conexion->prepare("UPDATE producto SET nombre='$nombre', descripcion='$descripcion' WHERE id =$id");
+            $stmt->execute();
+            return "Actualizado Exitosamente";
+        } catch (PDOException $e) {
+            echo "Error al conectarse ====>" . $e;
+        }
+       }
+    }
+?>
 
-function guardarProducto($id,$nombre,$descripcion){
-	$conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
-	try {
-		$conexion = $conn->Conectar();
-		$stmt = $conexion->prepare("INSERT INTO (id,nombreProducto,descripcion) VALUES ");
-        $stmt->execute();
-	}catch(PDOException $e){
-		echo "error";
-	}
 
-}
-
-}
-
-
-
-// $conexion = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
-
-// try {
-// 	$mbd = $conexion->Conectar();
-//     foreach ($mbd->query('SELECT * from producto') as $fila) {
-//         print_r(json_encode($fila));
-//         echo "<br/>";
-//     }
-// } catch (PDOException $e) {
-//     print "¡Error!: " . $e->getMessage() . "<br/>";
-// }
-
-// $conexion->Desconectar();
-
-
-	// $mbd = new PDO('mysql:host=localhost;dbname=libni', "libni", "12345678Lb");
-	// echo "conexion exitosa <br/>";
-	// try {
-	// 	$mbd = new PDO('mysql:host=localhost;dbname=libni', "libni", "12345678Lb");
-	// 	foreach($mbd->query('SELECT * from producto') as $fila) {
-	// 		print_r($fila);
-	// 		echo "<br/>";
-	// 	}
-	// 	$mbd = null;
-		
-	// } catch (PDOException $e) {
-	// 	print "¡Error!: " . $e->getMessage() . "<br/>";
-	// 	die();
-	// }
 
 
  
