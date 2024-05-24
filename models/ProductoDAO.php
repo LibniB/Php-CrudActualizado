@@ -74,9 +74,13 @@
         $conn = new Conexion('localhost', 'libni', '12345678Lb', 'libni');
         try {
             $conexion = $conn->Conectar();
-            $stmt = $conexion->prepare("UPDATE producto SET nombre='$nombre', descripcion='$descripcion' WHERE id =$id");
-            $stmt->execute();
-            return "Actualizado Exitosamente";
+            if($id){
+                $stmt = $conexion->prepare("UPDATE producto SET nombre='$nombre', descripcion='$descripcion' WHERE id =$id");
+                $stmt->execute();
+                return "Actualizado Exitosamente";
+            }else{
+                return "Error: ID is null";
+            }
         } catch (PDOException $e) {
             echo "Error al conectarse ====>" . $e;
         }
